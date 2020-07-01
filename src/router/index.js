@@ -1,8 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import LogIn from '../views/LogIn.vue';
-import Admin from '../views/Admin/views/DashBoard.vue';
-import Client from '../views/Client/Client.vue';
 import PageNotFound from '../views/PageNotFound.vue';
 import { authGuard } from '../utils';
 
@@ -19,20 +17,32 @@ const routes = [
     name: 'Admin',
     props: true,
     beforeEnter: authGuard,
-    component: Admin,
-    children: [
-      { path: '/admin/agencies', name: 'Agencies', component: () => import('../views/Admin/views/Agencies.vue') },
-      { path: '/admin/agents', name: 'Agents', component: () => import('../views/Admin/views/Agents.vue') },
-      { path: '/admin/metricts', name: 'Metrics', component: () => import('../views/Admin/views/Metrics.vue') }
-    ]
+    component: () => import('../views/Admin/views/DashBoard.vue')
+  },
+  {
+    path: '/admin/agencies',
+    beforeEnter: authGuard,
+    name: 'Agencies',
+    component: () => import('../views/Admin/views/Agencies.vue')
+  },
+  {
+    path: '/admin/agents',
+    beforeEnter: authGuard,
+    name: 'Agents',
+    component: () => import('../views/Admin/views/Agents.vue')
+  },
+  {
+    path: '/admin/metricts',
+    beforeEnter: authGuard,
+    name: 'Metrics',
+    component: () => import('../views/Admin/views/Metrics.vue')
   },
   {
     path: '/client',
     name: 'Client',
     props: true,
     beforeEnter: authGuard,
-    component: Client,
-    children: [{ path: '/details', component: () => {} }]
+    component: () => import('../views/Client/Client.vue')
   },
   {
     path: '/about',

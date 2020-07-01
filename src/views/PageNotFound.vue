@@ -2,11 +2,14 @@
   <div class="container">
     <h2>{{ status }}</h2>
     <h2>{{ message }}</h2>
+    <Button @onClick="$router.push('/')" :buttonText="'LogIn'" backgroundColor="#2c3e50" />
   </div>
 </template>
 
 <script>
+import Button from '../components/Button';
 export default {
+  components: { Button },
   props: {
     message: {
       default: '',

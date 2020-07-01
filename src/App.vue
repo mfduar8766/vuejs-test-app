@@ -15,9 +15,6 @@
           style="margin-right: 1rem; z-index: 0;"
           class="fa fa-bell cursor-pointer font-awesome-icon-settings"
         >
-          <!-- <div class="notification-styles">
-            {{ (notifications && notifications.length) || 0 }}
-          </div> -->
         </i>
         <i
           v-if="(user && user.permission === 'ADMIN') || (user && user.permission === 'CLIENT')"
@@ -30,7 +27,7 @@
     <div id="nav">
       <SideBar :isSideBarOpen="isSideBarOpen" @isOpen="toggleSideBar($event)">
         <ul class="side-bar-link-container">
-          <li @click="goToPage(link.path)" class="side-bar-links" v-for="link in navLinks" :key="link.name">
+          <li @click="goToPage(link.name)" class="side-bar-links" v-for="link in navLinks" :key="link.name">
             <i :class="link.icon"></i>
             <div style="margin-left: 1rem;">{{ link.name }}</div>
           </li>
@@ -42,16 +39,21 @@
         </div>
         <div v-if="notifications.length">
           <ul class="side-bar-link-container">
-            <li @click="viewDetails(link.path)" class="side-bar-links" v-for="link in notifications" :key="link.name">
-              <i :class="link.icon"></i>
-              <div style="margin-left: 1rem;">{{ link.name }}</div>
+            <li
+              @click="viewDetails(notification.path)"
+              class="side-bar-links"
+              v-for="notification in notifications"
+              :key="notification.name"
+            >
+              <i :class="notification.icon"></i>
+              <div style="margin-left: 1rem;">{{ notification.name }}</div>
             </li>
           </ul>
         </div>
       </SideBar>
     </div>
     <div class="router-container">
-      <router-view :key="$route.fullPath" />
+      <router-view />
     </div>
   </div>
 </template>
@@ -63,6 +65,7 @@ import Modal from '@/components/Modal';
 import SideBarUtils from '@/components/SideBar/utils';
 import { mockData } from './assets/mockData';
 import { mapGetters } from 'vuex';
+import { generateUserObject, setNavigationParams } from './utils';
 
 export default {
   name: 'App',
@@ -82,9 +85,9 @@ export default {
     toggleSideBar(event) {
       this.isSideBarOpen = event;
     },
-    goToPage(link) {
+    goToPage(name) {
       this.isSideBarOpen = !this.isSideBarOpen;
-      if (link === '/log-out') {
+      if (name === 'Log Out') {
         this.$store.dispatch('setUser', {
           name: null,
           token: null,
@@ -92,9 +95,23 @@ export default {
           data: null,
           notifications: []
         });
-        this.$router.push({ path: link });
+        return this.$router.push(
+          setNavigationParams('LogIn', {
+            user: generateUserObject(null, null, null, null)
+          })
+        );
+      } else {
+        return this.$router.push(
+          setNavigationParams(name, {
+            user: generateUserObject(
+              (this.user && this.user.name) || '',
+              (this.user && this.user.token) || '',
+              (this.user && this.user.permission) || '',
+              (this.user && this.user.data) || null
+            )
+          })
+        );
       }
-      this.$router.push({ path: link });
     }
   },
   viewDetails(data) {
@@ -121,18 +138,14 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  height: 100%;
+  width: 100%;
 }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
-  height: 100%;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
 }
 
 .router-container {
@@ -191,13 +204,5 @@ body {
 
 #nav a.router-link-exact-active {
   color: #42b983;
-}
-
-.notification-styles {
-  font-size: 20px;
-  color: black;
-  position: relative;
-  top: -25px;
-  left: 1px;
 }
 </style>

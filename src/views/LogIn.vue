@@ -36,6 +36,7 @@
 import Card from '@/components/Card';
 import Button from '@/components/Button';
 import Input from '@/components/Input';
+import { generateUserObject } from '../utils';
 
 export default {
   components: {
@@ -61,12 +62,6 @@ export default {
       this.handleSetUser(this.user.userName);
     },
     handleSetUser(userName) {
-      const generateUserObject = (name, token, permission, data) => ({
-        name,
-        token,
-        permission,
-        data
-      });
       switch (userName) {
         case 'mfduar8766':
           this.$store.dispatch('setUser', {

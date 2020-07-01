@@ -9,7 +9,7 @@
     </Modal>
     <Modal
       :classProp="{ height: '100px', width: '500px' }"
-      :headerText="'Are You Sure You Want To Delete?'"
+      :headerText="'Are You Sure You Want To Delete This Agency?'"
       :isModalOpen="isDeleteAgency"
       @closeModal="isDeleteAgency = $event"
     >
@@ -19,9 +19,8 @@
       </div>
     </Modal>
     <Modal :headerText="'Add Agency'" :isModalOpen="toggleAddAgency" @closeModal="toggleAddAgency = $event">
-      <AddAgency @newAgency="addAgency($event)" />
+      <AddAgency @newAgency="addAgency($event)" @close="toggleAddAgency = $event" />
     </Modal>
-    <h2>Welcome {{ user && user.name }}</h2>
     <div class="search-bar">
       <SearchBar
         :placeholder="'Search for Agency'"
@@ -29,7 +28,7 @@
         :searchArray="agencies"
         @onChange="searchResult = $event"
       />
-      <Button :icon="true" :iconClass="'fa fa-download'" style="margin-left: 2rem;" :buttonText="'Download'" />
+      <Button :icon="true" :iconClass="'fa fa-download'" style="margin-left: 2rem;" :buttonText="'Download CSV'" />
       <Button
         @onClick="toggleAddAgency = !toggleAddAgency"
         :icon="true"
@@ -88,7 +87,7 @@ export default {
   }),
   methods: {
     getAgencies() {
-      const agencies = (this.user && this.user.data) || [];
+      const agencies = [200, 300, 400, 500, 600, 700];
       this.agencies = mockData.filter(data => {
         if (agencies.includes(data.agencyId)) {
           return data;
