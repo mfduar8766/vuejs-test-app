@@ -4,7 +4,7 @@
     <div class="dashboard">
       <Card
         @onClick="navigateToPage('Agencies')"
-        class="cursor-pointer"
+        class="admin-card cursor-pointer"
         :headerStyles="{ 'box-shadow': 'none' }"
         :heightWidth="['250px', '20%']"
       >
@@ -17,7 +17,7 @@
       </Card>
       <Card
         @onClick="navigateToPage('Agents')"
-        class="cursor-pointer"
+        class="admin-card cursor-pointer"
         :headerStyles="{ 'box-shadow': 'none' }"
         :heightWidth="['250px', '20%']"
       >
@@ -30,7 +30,7 @@
       </Card>
       <Card
         @onClick="navigateToPage('Metrics')"
-        class="cursor-pointer"
+        class="admin-card cursor-pointer"
         :headerStyles="{ 'box-shadow': 'none' }"
         :heightWidth="['250px', '20%']"
       >
@@ -47,7 +47,7 @@
 
 <script>
 import Card from '../../../components/Card';
-
+import { setNavigationParams } from '../../../utils';
 export default {
   components: {
     Card
@@ -60,10 +60,7 @@ export default {
   },
   methods: {
     navigateToPage(name) {
-      // router.push({ name: 'user', params: { userId } }); // -> /user/123
-      // router.push({ path: `/user/${userId}` }); // -> /user/123
-      // router.push({ path: '/user', params: { userId } }); // -> /user
-      this.$router.push({ name: name });
+      this.$router.push(setNavigationParams(name, { user: this.user }));
     }
   }
 };
@@ -81,6 +78,14 @@ export default {
 .header {
   text-align: center;
   width: 100%;
+}
+
+.admin-card:hover {
+  background-color: lightgray;
+  color: white;
+  .fa {
+    color: white;
+  }
 }
 
 .fa {

@@ -13,6 +13,13 @@
       </div>
       <div class="space-between">
         <Button :isDisabled="isError" type="'submit'" buttonText="Save" backgroundColor="#2c3e50" />
+        <Button
+          style="margin-left: 1rem;"
+          @onClick="$emit('close', false)"
+          type="'button'"
+          buttonText="Close"
+          backgroundColor="#2c3e50"
+        />
       </div>
     </form>
   </div>

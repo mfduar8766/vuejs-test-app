@@ -139,6 +139,17 @@ td {
   width: 100%;
 }
 
+tr:hover {
+  background-color: #007ad9;
+  color: white;
+  .edit-icon {
+    color: white;
+  }
+  .trash-icon {
+    color: white;
+  }
+}
+
 .white-check {
   color: white;
   margin-left: 0.2rem;

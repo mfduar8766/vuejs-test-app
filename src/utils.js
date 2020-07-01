@@ -6,7 +6,11 @@ export const chunckArray = (array, size) =>
 
 export const authGuard = (to, _, next) => {
   if (!to.params.user) {
-    next({ name: 'PageNotFound', params: { message: 'Permission Denied', status: 401 } });
+    next({
+      state: JSON.parse(localStorage.getItem('vuex')),
+      name: 'PageNotFound',
+      params: { message: 'Permission Denied', status: 401 }
+    });
   }
   if (to.params.user && to.params.user.permission) {
     if (to.params.user.permission === ADMIN) {
@@ -15,8 +19,30 @@ export const authGuard = (to, _, next) => {
     if (to.params.user.permission === CLIENT) {
       next();
     }
+  } else {
+    next({
+      state: JSON.parse(localStorage.getItem('vuex')),
+      name: 'PageNotFound',
+      params: { message: 'Page Not Found', status: 404 }
+    });
   }
 };
+
+export const generateUserObject = (name, token, permission, data) => ({
+  name,
+  token,
+  permission,
+  data
+});
+
+export const setNavigationParams = (name, params, queries) => ({
+  name,
+  params,
+  query: {
+    t: new Date().getTime(),
+    ...queries
+  }
+});
 
 export class PaginatorService {
   static state$ = {

@@ -7,9 +7,10 @@ class SideBarUtils {
   ];
 
   static adminNavLinks = [
-    { icon: 'fa fa-user', path: '/admin', name: 'Profile' },
-    { icon: 'fa fa-group', path: '/admin/agencies', name: 'Agencies' },
-    { icon: 'fa fa-user-circle', path: '/admin/agents', name: 'Agents' },
+    { icon: 'fa fa-user', path: '/admin/dashboard', name: 'Profile' },
+    { icon: 'fa fa-institution', path: '/admin/agencies', name: 'Agencies' },
+    { icon: 'fa fa-group', path: '/admin/agents', name: 'Agents' },
+    { icon: 'fa fa-area-chart', path: '/admin/metrics', name: 'Metrics' },
     { icon: 'fa fa-power-off', path: '/', name: 'Log Out' }
   ];
 
