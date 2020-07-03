@@ -36,7 +36,7 @@
 
 <script>
 import Button from '../../../components/Button';
-import { states } from '../../../assets/mockData';
+import { States } from '../../../assets/mockData';
 import Input from '../../../components/Input';
 
 export default {
@@ -54,7 +54,7 @@ export default {
     this.prepopulateForm();
   },
   data: () => ({
-    states: states,
+    states: States,
     agency: {
       agencyName: '',
       address: '',
