@@ -9,9 +9,7 @@
           </div>
         </div>
       </div>
-      <div class="modal-content">
-        <slot></slot>
-      </div>
+      <slot></slot>
       <footer v-if="showFooter" class="modal-footer">
         <slot name="footer"></slot>
       </footer>

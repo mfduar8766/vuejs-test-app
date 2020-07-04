@@ -1,6 +1,18 @@
 <template>
   <div id="app">
-    <Modal :isModalOpen="toggleSettings" @closeModal="toggleSettings = $event"></Modal>
+    <Modal
+      :classProp="{ height: '200px', width: '250px' }"
+      :isModalOpen="toggleSettings"
+      @closeModal="toggleSettings = $event"
+    >
+      <Button
+        style="margin-left: 1rem;"
+        @onClick="logOut()"
+        :type="'button'"
+        :buttonText="'Log Out'"
+        :backgroundColor="'#2c3e50'"
+      />
+    </Modal>
     <div class="tool-bar">
       <i
         v-if="(user && user.permission === 'ADMIN') || (user && user.permission === 'CLIENT')"
@@ -60,16 +72,18 @@
 
 <script>
 import SideBar from '@/components/SideBar/SideBar';
+import Button from './components/Button';
 import SearchBar from '@/components/SearchBar';
 import Modal from '@/components/Modal';
 import SideBarUtils from '@/components/SideBar/utils';
 import { mockData } from './assets/mockData';
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { generateUserObject, setNavigationParams, getUserFromVueX } from './utils';
 
 export default {
   name: 'App',
   components: {
+    Button,
     SideBar,
     SearchBar,
     Modal
@@ -112,13 +126,36 @@ export default {
           })
         );
       }
+    },
+    logOut() {
+      this.toggleSettings = !this.toggleSettings;
+      this.$store.dispatch('setUser', {
+        name: null,
+        token: null,
+        permission: null,
+        data: null,
+        notifications: []
+      });
+      return this.$router.push(
+        setNavigationParams('LogIn', {
+          user: generateUserObject(null, null, null, null)
+        })
+      );
+      // this.setUserState({
+      //   name: null,
+      //   token: null,
+      //   permission: null,
+      //   data: null,
+      //   notifications: []
+      // });
     }
   },
   viewDetails(data) {
     console.log('NOTIFICATIONS', data);
   },
   computed: {
-    ...mapGetters({ user: 'getUser', notifications: 'getUserNotifications' })
+    ...mapGetters({ user: 'getUser', notifications: 'getUserNotifications' }),
+    ...mapActions({ setUserState: 'setUser' })
   },
   watch: {
     user: {
@@ -129,7 +166,8 @@ export default {
         } else if (userState) {
           this.navLinks = SideBarUtils.getNavLinks(userState.permission);
         }
-      }
+      },
+      immediate: true
     }
   }
 };
