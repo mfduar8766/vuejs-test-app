@@ -65,7 +65,7 @@ import Modal from '@/components/Modal';
 import SideBarUtils from '@/components/SideBar/utils';
 import { mockData } from './assets/mockData';
 import { mapGetters } from 'vuex';
-import { generateUserObject, setNavigationParams } from './utils';
+import { generateUserObject, setNavigationParams, getUserFromVueX } from './utils';
 
 export default {
   name: 'App',
@@ -123,8 +123,11 @@ export default {
   watch: {
     user: {
       handler(data) {
+        const userState = getUserFromVueX();
         if (data && data.permission) {
           this.navLinks = SideBarUtils.getNavLinks(data.permission);
+        } else if (userState) {
+          this.navLinks = SideBarUtils.getNavLinks(userState.permission);
         }
       }
     }
