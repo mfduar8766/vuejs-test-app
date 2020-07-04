@@ -36,6 +36,39 @@ export const tableHeaders = [
   }
 ];
 
+export const agentsHeader = [
+  {
+    id: 0,
+    name: 'Agent Id',
+    prop: 'agentId'
+  },
+  {
+    id: 1,
+    name: 'First Name',
+    prop: 'firstName'
+  },
+  {
+    id: 2,
+    name: 'Last Name',
+    prop: 'lastName'
+  },
+  {
+    id: 3,
+    name: 'Members',
+    prop: 'members'
+  },
+  {
+    id: 4,
+    name: 'Start Date',
+    prop: 'startDate'
+  },
+  {
+    id: 5,
+    name: 'End Date',
+    prop: 'endDate'
+  }
+];
+
 export const States = [
   {
     label: 'Alabama',

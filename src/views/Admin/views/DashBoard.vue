@@ -1,6 +1,7 @@
 <template>
   <div style="height: 100%; width: 100%;">
-    <h2>Welcome {{ user && user.name }}</h2>
+    <h2 v-if="currentUser && currentUser.name">Welcome {{ currentUser && currentUser.name }}</h2>
+    <h2 v-else>No User Found</h2>
     <div class="dashboard">
       <Card
         @onClick="navigateToPage('Agencies')"
@@ -47,7 +48,7 @@
 
 <script>
 import Card from '../../../components/Card';
-import { setNavigationParams } from '../../../utils';
+import { setNavigationParams, getUserFromVueX } from '../../../utils';
 export default {
   components: {
     Card
@@ -58,9 +59,24 @@ export default {
       type: Object
     }
   },
+  data: () => ({
+    currentUser: null
+  }),
   methods: {
     navigateToPage(name) {
-      this.$router.push(setNavigationParams(name, { user: this.user }));
+      this.$router.push(setNavigationParams(name, { user: this.currentUser }));
+    }
+  },
+  watch: {
+    user: {
+      handler(value) {
+        if (value) {
+          this.currentUser = value;
+        } else {
+          this.currentUser = getUserFromVueX();
+        }
+      },
+      immediate: true
     }
   }
 };
