@@ -1,3 +1,5 @@
+import { getUserFromVueX } from '../../utils';
+
 class SideBarUtils {
   static clientNavLinks = [
     { icon: 'fa fa-home', path: '/client', name: 'DashBoard' },
@@ -23,7 +25,9 @@ class SideBarUtils {
   }
 
   static getNavLinks(role) {
-    switch (role) {
+    const userState = getUserFromVueX();
+    const checkRole = role ? role : userState.permission;
+    switch (checkRole) {
       case 'CLIENT':
         return this.clientNavLinks;
       case 'ADMIN':

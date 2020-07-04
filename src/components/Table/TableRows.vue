@@ -21,7 +21,7 @@
     </td>
     <td v-for="headers in tableHeaders" :key="headers.name">{{ data[headers.prop] }}</td>
     <td v-if="showEditOption">
-      <div style="display: flex; justify-content: space-around; width: 100%;">
+      <div class="icons-container">
         <i
           @click="$emit('dataToEdit', data)"
           :class="[
@@ -33,7 +33,7 @@
       </div>
     </td>
     <td v-if="showDeleteOption">
-      <div style="display: flex; justify-content: space-around; width: 100%;">
+      <div class="icons-container">
         <i
           @click="$emit('dataToDelete', data)"
           :class="[
@@ -186,6 +186,13 @@ tr:hover {
 
 .trash-icon {
   color: red;
+}
+
+.icons-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  z-index: 99;
 }
 
 footer {

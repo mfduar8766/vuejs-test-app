@@ -308,6 +308,53 @@ export const States = [
   }
 ];
 
+// eslint-disable-next-line no-unused-vars
+const model = [
+  {
+    id: 0,
+    title: 'UserName',
+    type: 'text',
+    component: 'Input',
+    value: 'BOB',
+    disabled: false
+  },
+  {
+    id: 1,
+    title: 'Address',
+    type: 'text',
+    placeholder: 'Address',
+    component: 'Input',
+    value: '',
+    disabled: false
+  },
+  {
+    id: 2,
+    title: 'State',
+    type: '',
+    component: 'Select',
+    value: '',
+    disabled: false,
+    options: []
+  },
+  {
+    id: 3,
+    title: 'State II',
+    type: '',
+    component: 'MultiSelect',
+    value: [],
+    disabled: false,
+    options: []
+  },
+  {
+    id: 4,
+    title: 'Password',
+    type: 'password',
+    component: 'Input',
+    value: '',
+    disabled: false
+  }
+];
+
 export const mockData = [
   {
     agencyName: 'Sample Agency I',
