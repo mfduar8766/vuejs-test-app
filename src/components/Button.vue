@@ -1,13 +1,13 @@
 <template>
   <button
-    :style="{ 'background-color': isDisabled ? 'gray' : backgroundColor }"
+    :class="[isDisabled ? 'disabled' : '']"
+    :style="{ 'background-color': backgroundColor }"
     :type="buttonType"
     @click="$emit('onClick')"
     :disabled="isDisabled"
   >
     <div style="display: flex; justify-conternt: space-between; align-items: center;">
-      <i style="margin-right: 1rem;" v-if="isDisabled" class="fa fa-ban"></i>
-      <div>{{ buttonText }}</div>
+      <div v-if="buttonText">{{ buttonText }}</div>
       <i style="margin-left: 1rem;" v-if="icon" :class="iconClass"></i>
     </div>
   </button>
@@ -69,5 +69,10 @@ button {
 
 .gray {
   background-color: gray;
+}
+
+.disabled {
+  color: lightgray;
+  pointer-events: none;
 }
 </style>

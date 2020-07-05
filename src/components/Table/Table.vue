@@ -27,11 +27,12 @@
         @dataToEdit="$emit('dataToEdit', $event)"
         @dataToDelete="$emit('dataToDelete', data)"
       />
-      <!-- <Paginator
+      <Paginator
         v-if="originalTableState && originalTableState.length"
         :rowsPerPageOptions="rowsPerPageOptions"
         :originalTableState="originalTableState"
-      /> -->
+        @paginator="handlePagination($event)"
+      />
     </table>
   </div>
 </template>
@@ -39,13 +40,13 @@
 <script>
 import TableHeader from './TableHeader';
 import TableRows from './TableRows';
-// import Paginator from '../Paginator';
-// import { PaginatorService } from '../../utils';
+import Paginator from '../Paginator';
 
 export default {
   components: {
     TableHeader,
-    TableRows
+    TableRows,
+    Paginator
   },
   props: {
     dataKey: {
@@ -74,7 +75,6 @@ export default {
   },
   mounted() {
     this.originalTableState = this.tableDataProp;
-    // this.handlePaginatorService(this.originalTableState);
     this.tableData = this.tableDataProp.slice(0, this.rowsPerPage);
   },
   data: () => ({
@@ -85,26 +85,13 @@ export default {
     originalTableState: [],
     tableData: []
   }),
-  // methods: {
-  //   handlePaginatorService(originalTableState) {
-  //     PaginatorService.changeState({ rowsPerPage: this.rowsPerPage, tableData: originalTableState });
-  //     this.tableData = PaginatorService.state$.tableData;
-  //     this.rowsPerPage = PaginatorService.state$.rowsPerPage;
-  //     this.page = PaginatorService.state$.page || 0;
-  //     PaginatorService.changeState({
-  //       rowsPerPage: this.rowsPerPage,
-  //       tableData: originalTableState
-  //     });
-  //   },
-  //   getRowData(data) {
-  //     if (!this.selectedRow.has(data[this.dataKey])) {
-  //       this.selectedRow.set(data[this.dataKey], data);
-  //       this.$emit('rowData', this.selectedRow.get(data[this.dataKey]));
-  //     } else if (this.selectedRow.has(data[this.dataKey])) {
-  //       this.selectedRow.delete(data[this.dataKey]);
-  //     }
-  //   }
-  // },
+  methods: {
+    handlePagination(data) {
+      this.tableData = data.tableData;
+      this.rowsPerPage = data.rowsPerPage;
+      this.page = data.page || 0;
+    }
+  },
   watch: {
     selectedResult: {
       handler(data) {
@@ -116,30 +103,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
-button {
-  background-color: Transparent;
-  background-repeat: no-repeat;
-  border: none;
-  cursor: pointer;
-  overflow: hidden;
-  outline: none;
-}
-
 .table-container {
   height: 100%;
   width: 100%;
   display: table;
   table-layout: fixed;
   border-collapse: collapse;
-}
-
-.active {
-  background-color: #007ad9;
-  color: white;
-}
-
-.change-fa-color {
-  color: white;
 }
 
 th {
@@ -155,49 +124,5 @@ td {
   transition: 0.3s;
   border-bottom: 1px solid rgb(219, 215, 215);
   cursor: pointer;
-}
-
-.white-check {
-  color: white;
-}
-
-.check-box {
-  display: flex;
-  justify-content: center;
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  background: white;
-  border-radius: 5px;
-  border: 2px solid #555;
-  margin-right: 10px;
-  margin-bottom: 0.2rem;
-}
-
-.all-selected {
-  -webkit-appearance: none;
-  width: 20px;
-  height: 20px;
-  border-radius: 5px;
-  border: 2px solid #555;
-  margin-right: 10px;
-  margin-bottom: 0.2rem;
-  background-color: #007ad9;
-  color: white;
-}
-
-.edit-icon {
-  color: blue;
-}
-
-.trash-icon {
-  color: red;
-}
-
-footer {
-  display: flex;
-  justify-content: space-between;
-  height: 100%;
-  width: 100%;
 }
 </style>

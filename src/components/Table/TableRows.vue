@@ -73,46 +73,12 @@ export default {
         this.selectedRowArray = this.selectedRowArray.filter(key => key !== data[this.dataKey]);
         this.$emit('rowData', data);
       }
-      // if (!this.row.has(data[this.dataKey])) {
-      //   this.row.set(data[this.dataKey], data);
-      //   this.selectedRowArray.push(data[this.dataKey]);
-      //   this.$emit('rowData', data);
-      // } else if (this.row.has(data[this.dataKey])) {
-      //   this.row[data[this.dataKey]] = null;
-      //   this.row.delete(data[this.dataKey]);
-      //   this.selectedRowArray = this.selectedRowArray.filter(key => key !== data[this.dataKey]);
-      //   this.$emit('rowData', data);
-      // }
     }
   }
-  // watch: {
-  //   selectedRow: {
-  //     handler(data) {
-  //       console.log('IN COMING ROW', data);
-  //     }
-  //   }
-  // }
 };
 </script>
 
 <style scoped lang="scss">
-button {
-  background-color: Transparent;
-  background-repeat: no-repeat;
-  border: none;
-  cursor: pointer;
-  overflow: hidden;
-  outline: none;
-}
-
-.table-container {
-  height: 100%;
-  width: 100%;
-  display: table;
-  table-layout: fixed;
-  border-collapse: collapse;
-}
-
 .active {
   background-color: #007ad9;
   color: white;
@@ -193,12 +159,5 @@ tr:hover {
   justify-content: space-around;
   width: 100%;
   z-index: 99;
-}
-
-footer {
-  display: flex;
-  justify-content: space-between;
-  height: 100%;
-  width: 100%;
 }
 </style>
