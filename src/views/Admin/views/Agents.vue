@@ -1,11 +1,16 @@
 <template>
   <div>
     <Modal
-      :headerText="agentToEdit && agentToEdit ? `Edit Agent: ${agentToEdit.firstName} ${agentToEdit.lastName}` : ''"
+      :headerText="agentToEdit && agentToEdit ? `Edit Agent: ${fullName}` : ''"
       :isModalOpen="toggleEditModal"
       @closeModal="toggleEditModal = $event"
     >
-      <EditAgents v-if="agentToEdit" :agent="agentToEdit" @close="editData($event, false)" />
+      <EditAgents
+        v-if="agentToEdit"
+        :agent="agentToEdit"
+        @close="editData($event, false)"
+        @editedAgent="editData($event, false)"
+      />
     </Modal>
     <Modal
       :classProp="{ height: '100px', width: '500px' }"
@@ -57,20 +62,17 @@ import { mockData } from '../../../assets/mockData';
 import { agentsHeader } from '../../../assets/mockData';
 import Table from '../../../components/Table/Table';
 import Modal from '../../../components/Modal';
-import EditAgents from '../components/EditAgents';
-// import EditAgency from '../components/EditAgency';
 import SearchBar from '../../../components/SearchBar';
 import Button from '../../../components/Button';
-// import AddAgency from '../components/AddAgency';
+import EditAgents from '../components/EditAgents';
 
 export default {
   components: {
     Table,
     Modal,
-    EditAgents,
     SearchBar,
-    Button
-    // AddAgency
+    Button,
+    EditAgents
   },
   mounted() {
     this.getAgents();
@@ -117,6 +119,11 @@ export default {
     },
     setSelectedResult(data) {
       this.selectedResult = this.agents.filter(agency => agency.agencyId === data.agencyId);
+    }
+  },
+  computed: {
+    fullName() {
+      return `${this.agentToEdit.firstName} ${this.agentToEdit.lastName}`;
     }
   },
   watch: {
