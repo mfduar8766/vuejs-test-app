@@ -37,7 +37,7 @@
       </div>
     </div>
     <div id="nav">
-      <SideBar :isSideBarOpen="isSideBarOpen" @isOpen="toggleSideBar($event)">
+      <SideBar v-if="user && user.permission" :isSideBarOpen="isSideBarOpen" @isOpen="toggleSideBar($event)">
         <ul class="side-bar-link-container">
           <li @click="goToPage(link.name)" class="side-bar-links" v-for="link in navLinks" :key="link.name">
             <i :class="link.icon"></i>
@@ -45,7 +45,12 @@
           </li>
         </ul>
       </SideBar>
-      <SideBar :isSideBarOpen="togleNotifications" :position="'right'" @isOpen="togleNotifications = $event">
+      <SideBar
+        v-if="user && user.permission"
+        :isSideBarOpen="togleNotifications"
+        :position="'right'"
+        @isOpen="togleNotifications = $event"
+      >
         <div style="display: flex; justify-content: center;" v-if="!notifications.length">
           <div>No Notifications</div>
         </div>
