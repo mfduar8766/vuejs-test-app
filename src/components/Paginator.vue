@@ -4,15 +4,15 @@
     <div>
       <div class="pages-container">
         <Button
-          :disabled="currentPage <= pagesArray[0]"
+          :isDisabled="currentPage <= pagesArray[0]"
           style="font-size: 1.5rem; color: black;"
           :icon="true"
           :iconClass="'fa fa-angle-double-left'"
-          @click="resetPaginator()"
+          @onClick="resetPaginator()"
         />
         <Button
-          :disabled="currentPage <= pagesArray[0]"
-          @click="previousPage()"
+          :isDisabled="currentPage <= pagesArray[0]"
+          @onClick="previousPage()"
           style="font-size: 1.5rem; margin-right: 1rem; color: black;"
           :icon="true"
           :iconClass="'fa fa-angle-left'"
@@ -21,15 +21,15 @@
           <div @click="changePage(page)" :class="currentPage === page ? 'is-current-page' : 'pages'">{{ page }}</div>
         </div>
         <Button
-          :disabled="currentPage === pagesArray.length - 1"
-          @click="nextPage()"
+          :isDisabled="currentPage === pagesArray.length - 1"
+          @onClick="nextPage()"
           style="font-size: 1.5rem; color: black;"
           :icon="true"
           :iconClass="'fa fa-angle-right'"
         />
         <Button
-          :disabled="currentPage === pagesArray.length - 1"
-          @click="goToLastPage()"
+          :isDisabled="currentPage === pagesArray.length - 1"
+          @onClick="goToLastPage()"
           style="font-size: 1.5rem; color: black;"
           :icon="true"
           :iconClass="'fa fa-angle-double-right'"
@@ -61,9 +61,7 @@ export default {
   },
   mounted() {
     this.tableData = this.originalTableState;
-    // this.rowsPerPage = PaginatorService.state$.rowsPerPage;
-    this.calculateTotalPages();
-    this.setRowsPerPageCollection();
+    this.callPaginatorMethods();
   },
   data: () => ({
     rowsPerPage: 5,
@@ -74,6 +72,10 @@ export default {
     selectedRows: ''
   }),
   methods: {
+    callPaginatorMethods() {
+      this.calculateTotalPages();
+      this.setRowsPerPageCollection();
+    },
     calculateTotalPages() {
       if (this.tableData.length % 2 === 0) {
         this.pagesArray =
@@ -101,8 +103,7 @@ export default {
     getSelectedOption(rowsPerPage) {
       this.rowsPerPage = rowsPerPage;
       this.rowsPerPageCollection = {};
-      this.calculateTotalPages();
-      this.setRowsPerPageCollection();
+      this.callPaginatorMethods();
       this.changePage(this.currentPage);
     },
     nextPage() {
@@ -127,7 +128,12 @@ export default {
     },
     changePage(page) {
       this.currentPage = page;
-      // PaginatorService.changeState({ rowsPerPage: this.rowsPerPage, tableData: this.tableData, page: this.page });
+      this.callPaginatorMethods();
+      this.$emit('paginator', {
+        rowsPerPage: this.rowsPerPage,
+        tableData: this.rowsPerPageCollection[page],
+        page: this.currentPage
+      });
     }
   },
   computed: {
@@ -161,6 +167,7 @@ footer {
   align-items: center;
   height: 100%;
   width: 100%;
+  margin-left: 1rem;
 }
 
 .pages-container {

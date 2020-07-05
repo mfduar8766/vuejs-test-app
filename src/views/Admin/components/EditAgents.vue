@@ -70,15 +70,12 @@
 <script>
 import moment from 'moment';
 import Input from '../../../components/Input';
-import Select from '../../../components/Select';
 import Button from '../../../components/Button';
 
 export default {
   components: {
     Button,
-    Input,
-    // eslint-disable-next-line vue/no-unused-components
-    Select
+    Input
   },
   props: {
     agent: {
@@ -119,7 +116,7 @@ export default {
       }
     },
     removeRep(index) {
-      this.reps = this.reps.slice(0, index).concat(this.agency.agents.slice(index + 1));
+      this.reps = this.reps.slice(0, index).concat(this.reps.slice(index + 1));
     }
   },
   computed: {
