@@ -9,7 +9,6 @@
         <div class="input-container">
           <label for="correspondingAgency">First Name</label>
           <Input v-model="data.firstName" :disabled="true" />
-          <Input v-model="data.firstName" :disabled="true" />
         </div>
         <div class="input-container">
           <label for="correspondingAgency">Last Name</label>
@@ -27,7 +26,7 @@
 
       <div class="reps-container">
         <div>
-          <label for="member">Reps</label>
+          <label style="font-weight: bold;" for="member">Reps</label>
           <Button @onClick="addRep()" type="'button'" buttonText="Add Rep" backgroundColor="#2c3e50" />
         </div>
         <div style="display: flex;" v-for="(rep, index) in reps" :key="index">
@@ -93,14 +92,17 @@ export default {
   }),
   methods: {
     setFormData() {
-      this.data = this.agent;
-      this.reps = this.agent.reps.map(rep => ({
+      const { reps, ...rest } = this.agent;
+      this.data = rest;
+      this.reps = reps.map(rep => ({
         ...rep,
         startDate: moment(rep.startDate).format('YYYY-MM-DD'),
         endDate: moment(rep.endDate).format('YYYY-MM-DD')
       }));
     },
-    handleSubmit() {},
+    handleSubmit() {
+      this.$emit('editedAgent', { ...this.data, ...this.reps });
+    },
     addRep() {
       if (this.reps.length >= 4) {
         return;

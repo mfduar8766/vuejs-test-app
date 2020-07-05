@@ -12,11 +12,6 @@ const store = new Vuex.Store({
       permission: null,
       data: null,
       notifications: []
-    },
-    paginator: {
-      rowsPerPage: null,
-      tableData: [],
-      page: 0
     }
   },
   plugins: [

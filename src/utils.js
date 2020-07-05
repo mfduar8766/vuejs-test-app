@@ -50,23 +50,3 @@ export const setNavigationParams = (name, params, queries) => ({
     ...queries
   }
 });
-
-export class PaginatorService {
-  static state$ = {
-    rowsPerPage: null,
-    tableData: [],
-    page: 0
-  };
-
-  static changeState(value) {
-    this.state$ = {
-      rowsPerPage: value.rowsPerPage,
-      tableData: value.tableData,
-      page: value.page
-    };
-  }
-
-  static state() {
-    return this.state$;
-  }
-}
